@@ -2,12 +2,15 @@ let now = new Date();
         let currentYear = now.getFullYear();
         let currentMonth = now.getMonth();
         let selectedDate = null;
-        let events = {};
+        // let events = {};  // No longer local
 
-        function generateCalendar(year, month) {
-             const monthYearDisplay = document.getElementById('month-year');
+        // Use localStorage for persistence
+        let events = JSON.parse(localStorage.getItem('calendarEvents') || '{}');
+
+
+      function generateCalendar(year, month) {
+            const monthYearDisplay = document.getElementById('month-year');
             const calendarBody = document.getElementById('calendar-body');
-
             const monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ];
@@ -29,7 +32,7 @@ let now = new Date();
                     } else if (date > daysInMonth) {
                         cell.textContent = '';
                     } else {
-                         let dateNum = document.createTextNode(date);
+                        let dateNum = document.createTextNode(date);
                         cell.appendChild(dateNum);
                         let cellDate = new Date(year, month, date);
                         let dateStr = formatDate(cellDate);
@@ -66,7 +69,7 @@ let now = new Date();
         }
 
         function formatDate(date) {
-              let d = new Date(date),
+            let d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
                 year = d.getFullYear();
@@ -76,50 +79,54 @@ let now = new Date();
             return [year, month, day].join('-');
         }
 
-        function addEvent(dateStr, eventName) {
+      function addEvent(dateStr, eventName) {
             if (!events[dateStr]) {
                 events[dateStr] = [];
             }
             events[dateStr].push(eventName);
+            saveEvents(); // Save to localStorage
         }
 
-         function deleteEvent(dateStr, eventIndex) {
+        function deleteEvent(dateStr, eventIndex) {
             events[dateStr].splice(eventIndex, 1);
             if (events[dateStr].length === 0) {
                 delete events[dateStr];
             }
-             generateCalendar(currentYear, currentMonth);
+            saveEvents(); // Save to localStorage
+            generateCalendar(currentYear, currentMonth);
         }
 
-function displayEvents(cell, dateStr) {
-    // Clear previous events
-    cell.querySelectorAll('.event-container').forEach(e => e.remove());
+        function displayEvents(cell, dateStr) {
+            cell.querySelectorAll('.event-container').forEach(e => e.remove());
 
-    if (events[dateStr]) {
-        events[dateStr].forEach((eventText, index) => {
-            let eventContainer = document.createElement('div');
-            eventContainer.classList.add('event-container');
+            if (events[dateStr]) {
+                events[dateStr].forEach((eventText, index) => {
+                    let eventContainer = document.createElement('div');
+                    eventContainer.classList.add('event-container');
 
-            let eventDiv = document.createElement('div');
-            eventDiv.classList.add('event');
-            eventDiv.textContent = eventText;
-            // Removed font size adjustment
+                    let eventDiv = document.createElement('div');
+                    eventDiv.classList.add('event');
+                    eventDiv.textContent = eventText;
 
-            let deleteBtn = document.createElement('button');
-            deleteBtn.classList.add('delete-event');
-            deleteBtn.textContent = 'x';
-            deleteBtn.addEventListener('click', function(event) {
-                event.stopPropagation();
-                deleteEvent(dateStr, index);
-            });
+                    let deleteBtn = document.createElement('button');
+                    deleteBtn.classList.add('delete-event');
+                    deleteBtn.textContent = 'x';
+                    deleteBtn.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                        deleteEvent(dateStr, index);
+                    });
 
-            eventContainer.appendChild(eventDiv);
-            eventContainer.appendChild(deleteBtn);
-            cell.appendChild(eventContainer);
-        });
-    }
-}
+                    eventContainer.appendChild(eventDiv);
+                    eventContainer.appendChild(deleteBtn);
+                    cell.appendChild(eventContainer);
+                });
+            }
+        }
 
+        // Save events to localStorage
+        function saveEvents() {
+            localStorage.setItem('calendarEvents', JSON.stringify(events));
+        }
 
         document.getElementById('prev-month').addEventListener('click', function() {
             currentMonth--;
@@ -139,4 +146,4 @@ function displayEvents(cell, dateStr) {
             generateCalendar(currentYear, currentMonth);
         });
 
-        generateCalendar(currentYear, currentMonth);
+        generateCalendar(currentYear, currentMonth);  // Initial call
