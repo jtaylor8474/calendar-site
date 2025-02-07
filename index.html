@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Calendar</title>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="button-container">
+                <button id="prev-month">Previous</button>
+                <button id="next-month">Next</button>
+            </div>
+            <div class="month-display" id="month-year"></div>
+            <div></div>
+        </div>
+
+        <table class="calendar">
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+                <!-- Calendar days generated here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="myscript.js"></script>
+</body>
+</html>
