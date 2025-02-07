@@ -62,23 +62,23 @@ table.calendar th, table.calendar td {
     vertical-align: top;
     height: 120px;
     width: 14.28%;
-    overflow: hidden; /* Important for text wrapping */
+    overflow: hidden;
     position: relative;
 
 }
  table.calendar td:hover .event-container .event{
-      white-space: normal; /* Allow wrapping on hover */
+      white-space: normal;
         overflow: visible;
-        text-overflow: initial; /* Reset text-overflow */
-        z-index: 2; /* Bring to front */
-         position: absolute; /* Take out of flow */
-        background-color: white; /* Match cell background*/
-         border: 1px solid #ddd; /* Add border */
-        width: auto; /* Let it take the necessary width */
-        min-width: 100%; /* Minimum width */
+        text-overflow: initial;
+        z-index: 2;
+         position: absolute;
+        background-color: white;
+         border: 1px solid #ddd;
+        width: auto;
+        min-width: 100%;
         left: 0;
-        top: auto; /* Reset absolute positioning */
-        bottom: 100%; /* Position below cell content */
+        top: auto;
+        bottom: 100%;
 
 }
 
@@ -97,21 +97,19 @@ table.calendar th {
 }
 
 .event-container {
-    position: relative; /* Important for delete button */
-    display: block; /* Block-level for margin */
+    position: relative;
+    display: block;
     margin-top: 5px;
-   /* overflow, text-overflow and white-space now in the hover state */
+
 
 }
 
 .event {
     color: #0066cc;
    font-size: 0.8em;
-   /* Removed width, white-space, overflow, text-overflow */
+
 
 }
-
-
 
 .delete-event {
     position: absolute;
